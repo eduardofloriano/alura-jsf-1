@@ -20,7 +20,7 @@ public class AutorBean {
 		this.autor = autor;
 	}
 
-	public void gravar() {
+	public String gravar() {
 
 		EntityManager em = new JpaUtil().getEntityManager();
 		AutorDAO dao = new AutorDAO(em);
@@ -29,6 +29,8 @@ public class AutorBean {
 		
 		System.out.println("Gravou o Autor: " + autor.getNome());
 		clear();
+		
+		return "livro?faces-redirect=true";
 	}
 	
 	public void clear(){

@@ -91,6 +91,9 @@ public class LivroBean {
 		System.out.println("Gravou o autor " + autor.getNome() + " Para o livro: " + livro.getTitulo());
 	}
 	
+	public String formAutor(){
+		return "autor?faces-redirect=true";
+	}
 	
 	public void validateCaracterInicial(FacesContext fc, UIComponent component, Object value) throws ValidatorException{
 		

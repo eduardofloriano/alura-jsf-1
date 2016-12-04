@@ -57,6 +57,8 @@
 				action="#{livroBean.gravarAutor}">
 				<f:ajax execute="autor" render="tabelaAutores" />
 			</h:commandButton>
+			<br />
+			<h:commandLink value="Cadastrar" action="#{livroBean.formAutor}" immediate="true" />
 		</fieldset>
 
 	</h:form>
