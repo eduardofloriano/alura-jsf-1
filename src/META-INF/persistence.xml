@@ -4,10 +4,11 @@
 	version="2.0">
 	
 	
-	<persistence-unit name="financas-postgresql">
+	<persistence-unit name="livraria-postgresql">
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>		
 		<class>br.com.alura.livraria.modelo.Livro</class>
+		<class>br.com.alura.livraria.modelo.Autor</class>
 		
 		
 		<properties>			
