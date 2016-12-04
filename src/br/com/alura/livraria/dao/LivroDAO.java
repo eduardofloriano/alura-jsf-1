@@ -29,4 +29,9 @@ public class LivroDAO extends DAO<Livro> {
 		return query.getResultList();
 	}
 	
+	public List<Livro> obterTodosLivros(){
+		TypedQuery<Livro> query = em.createNamedQuery(Livro.OBTER_TODOS_LIVROS, Livro.class);
+		return query.getResultList();
+	}
+	
 }

@@ -1,6 +1,8 @@
 package br.com.alura.livraria.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,10 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@NamedQuery(name="obterAutoresDoLivro", query="select l.autores from Livro l")
+@NamedQueries({
+	@NamedQuery(name = "obterAutoresDoLivro", query = "select l.autores from Livro l"),
+	@NamedQuery(name = "obterTodosLivros", query = "select l from Livro l")
+})
 
 @Entity
 @SequenceGenerator(name = "SEQ_LIVRO", sequenceName = "SEQ_LIVRO", initialValue = 1, allocationSize = 1)
@@ -19,22 +27,25 @@ public class Livro {
 
 	public static final String OBTER_LIVROS_POR_AUTOR = "obterLivrosPorAutor";
 	public static final String OBTER_AUTORES_DO_LIVRO = "obterAutoresDoLivro";
-	
+	public static final String OBTER_TODOS_LIVROS = "obterTodosLivros";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LIVRO")
 	private int id;
 	private String titulo;
 	private String isbn;
 	private Double preco;
-	private String dataLancamento;
+
+	@Temporal(TemporalType.DATE)
+	private Date dataLancamento;
 
 	@ManyToMany
 	private List<Autor> autores = new ArrayList<Autor>();
-	
-	public void addAutor(Autor autor){
+
+	public void addAutor(Autor autor) {
 		this.autores.add(autor);
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -67,11 +78,12 @@ public class Livro {
 		this.preco = preco;
 	}
 
-	public String getDataLancamento() {
+	
+	public Date getDataLancamento() {
 		return dataLancamento;
 	}
 
-	public void setDataLancamento(String dataLancamento) {
+	public void setDataLancamento(Date dataLancamento) {
 		this.dataLancamento = dataLancamento;
 	}
 
@@ -83,5 +95,4 @@ public class Livro {
 		this.autores = autores;
 	}
 
-	
 }

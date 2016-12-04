@@ -7,18 +7,28 @@
 <h:body>
 	<h1>Novo Livro</h1>
 	<h:form>
+		<h:messages />
 		<fieldset>
 			<legend>Dados do Livro</legend>
 			<h:panelGrid columns="2">
-				<h:outputText value="Titulo" for="titulo" />
-				<h:inputText id="titulo" value="#{livroBean.livro.titulo}" />
-				<h:outputText value="Isbn" for="isbn" />
-				<h:inputText id="isbn" value="#{livroBean.livro.isbn}" />
-				<h:outputText value="Preço" for="preco" />
-				<h:inputText id="preco" value="#{livroBean.livro.preco}" />
-				<h:outputText value="Data de Lançamento" for="dataLancamento" />
+				<h:outputLabel value="Titulo" for="titulo" />
+				<h:inputText id="titulo" value="#{livroBean.livro.titulo}"
+					required="True" requiredMessage="Titulo é Obrigatório"
+					validatorMessage="Título não pode ser superior a 40 caracteres">
+					<f:validateLength maximum="40" />
+				</h:inputText>
+				<h:outputLabel value="Isbn" for="isbn" />
+				<h:inputText id="isbn" value="#{livroBean.livro.isbn}" validator="#{livroBean.validateCaracterInicial}" />
+				<h:outputLabel value="Preço" for="preco" />
+				<h:inputText id="preco" value="#{livroBean.livro.preco}" validatorMessage="Preço deve ser entre 1.00 e 1.000">
+					<f:validateLongRange maximum="1000" minimum="1" />
+				</h:inputText>
+				<h:outputLabel value="Data de Lancamento" for="dataLancamento" />
 				<h:inputText id="dataLancamento"
-					value="#{livroBean.livro.dataLancamento}" />
+					value="#{livroBean.livro.dataLancamento}">
+					<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+				</h:inputText>
 			</h:panelGrid>
 			<h:commandButton value="Gravar" action="#{livroBean.gravar}" />
 		</fieldset>
@@ -37,6 +47,35 @@
 			</h:dataTable>
 			<h:commandButton value="Gravar Autor"
 				action="#{livroBean.gravarAutor}" />
+		</fieldset>
+
+		<fieldset>
+			<legend>Livros Gravados</legend>
+			<h:dataTable value="#{livroBean.livros}" var="livro">
+				<h:column>
+					<h:outputLabel value="Titulo: " for="livro_titulo"
+						style="font-weight: bold" />
+					<h:outputText id="livro_titulo" value="#{livro.titulo}" />
+				</h:column>
+				<h:column>
+					<h:outputLabel value="Isbn: " for="livro_isbn"
+						style="font-weight: bold" />
+					<h:outputText id="livro_isbn" value="#{livro.isbn}" />
+				</h:column>
+				<h:column>
+					<h:outputLabel value="Preco: " for="livro_preco"
+						style="font-weight: bold" />
+					<h:outputText id="livro_preco" value="#{livro.preco}" />
+				</h:column>
+				<h:column>
+					<h:outputLabel value="Data de Lancamento: "
+						for="livro_dataLancamento" style="font-weight: bold" />
+					 <h:outputText id="livro_dataLancamento" value="#{livro.dataLancamento}">
+					 	<f:convertDateTime pattern="dd/MM/yyyy"
+						timeZone="America/Sao_Paulo" />
+					 </h:outputText>
+				</h:column>
+			</h:dataTable>
 		</fieldset>
 	</h:form>
 </h:body>

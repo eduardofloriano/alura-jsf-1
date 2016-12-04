@@ -2,8 +2,12 @@ package br.com.alura.livraria.bean;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.persistence.EntityManager;
 
 import br.com.alura.livraria.dao.AutorDAO;
@@ -13,13 +17,13 @@ import br.com.alura.livraria.model.Livro;
 import br.com.alura.livraria.util.JpaUtil;
 
 
-@ManagedBean
+@ManagedBean(name="livroBean")
 @ViewScoped
 public class LivroBean {
 
 	private Livro livro = new Livro();
+	private List<Livro> livros;
 	private List<Autor> autores;
-	
 	
 	private Integer autorId;
 	
@@ -32,6 +36,11 @@ public class LivroBean {
 			autores = autorDAO.obterTodosAutores();			
 		}
 		return autores;
+	}
+	
+	public List<Livro> getLivros() {
+		livros = livroDAO.obterTodosLivros();
+		return livros;
 	}
 	
 	public Livro getLivro() {
@@ -60,7 +69,7 @@ public class LivroBean {
 		System.out.println("Gravando o livro: " + livro.getTitulo());
 		
 		if(livro.getAutores().isEmpty()){
-			throw new RuntimeException("Livro deve ter ao menos um autor!");
+			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter ao menos um autor!"));
 		}
 		EntityManager em = new JpaUtil().getEntityManager();
 		LivroDAO dao = new LivroDAO(em);
@@ -82,4 +91,13 @@ public class LivroBean {
 		System.out.println("Gravou o autor " + autor.getNome() + " Para o livro: " + livro.getTitulo());
 	}
 	
+	
+	public void validateCaracterInicial(FacesContext fc, UIComponent component, Object value) throws ValidatorException{
+		
+		String valor = value.toString();
+		if(!valor.startsWith("1")){
+			throw new ValidatorException(new FacesMessage("Deveria comecar com 1"));
+		}
+		
+	}
 }
