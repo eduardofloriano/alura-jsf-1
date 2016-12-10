@@ -13,7 +13,9 @@ public class DAO<T> {
 	}
 	
 	public void remove(T t){
+		em.getTransaction().begin();
 		em.remove(t);
+		em.getTransaction().commit();
 	}
 	
 	public void merge(T t){

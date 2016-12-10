@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
@@ -15,10 +16,32 @@
 					<h:outputText value="Nome" for="nome" />
 					<h:inputText id="nome" value="#{autorBean.autor.nome}" />
 				</h:panelGrid>
-				<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
+				<h:commandButton value="Gravar" action="#{autorBean.gravar}">
+					<f:ajax execute="@form"
+						render="@form tabelaAutores" />
+				</h:commandButton>
+				<br /> <br />
+				<fieldset>
+					<legend>Lista de Autores</legend>
+					<h:dataTable id="tabelaAutores" value="#{autorBean.autores}"
+						var="autor">
+						<h:column>
+							<h:outputText value="#{autor.nome}" />
+						</h:column>
+						<h:column>
+							<h:commandButton id="removeAutor" value="X"
+								action="#{autorBean.remover(autor)}"/>
+						</h:column>
+						<h:column>
+							<h:commandButton id="alteraAutor" value="Alterar"
+								action="#{autorBean.carregar(autor)}" />
+						</h:column>
+					</h:dataTable>
+				</fieldset>
 			</fieldset>
 		</h:form>
-	</ui:define> <!-- FIM DO CONTEUDO -->
+	</ui:define>
+	<!-- FIM DO CONTEUDO -->
 	<ui:define name="rodape-nome-formulario">
 		Autores
 	</ui:define>

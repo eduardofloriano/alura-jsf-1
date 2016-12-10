@@ -1,11 +1,11 @@
 package br.com.alura.livraria.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +31,7 @@ public class Livro {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_LIVRO")
-	private int id;
+	private Integer id;
 	private String titulo;
 	private String isbn;
 	private Double preco;
@@ -39,18 +39,18 @@ public class Livro {
 	@Temporal(TemporalType.DATE)
 	private Date dataLancamento;
 
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Autor> autores = new ArrayList<Autor>();
 
 	public void addAutor(Autor autor) {
 		this.autores.add(autor);
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -93,6 +93,10 @@ public class Livro {
 
 	public void setAutores(List<Autor> autores) {
 		this.autores = autores;
+	}
+
+	public void removerAutor(Autor autor) {
+		this.autores.remove(autor);		
 	}
 
 }

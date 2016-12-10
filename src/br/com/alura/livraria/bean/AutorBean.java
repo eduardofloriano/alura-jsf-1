@@ -1,6 +1,9 @@
 package br.com.alura.livraria.bean;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.persistence.EntityManager;
 
 import br.com.alura.livraria.dao.AutorDAO;
@@ -8,9 +11,15 @@ import br.com.alura.livraria.model.Autor;
 import br.com.alura.livraria.util.JpaUtil;
 
 @ManagedBean
+@ViewScoped
 public class AutorBean {
 
+	private EntityManager em = new JpaUtil().getEntityManager();
+	private AutorDAO autorDAO = new AutorDAO(em);
+	
 	private Autor autor = new Autor();
+	private List<Autor> autores;
+	
 
 	public Autor getAutor() {
 		return autor;
@@ -20,17 +29,39 @@ public class AutorBean {
 		this.autor = autor;
 	}
 
-	public String gravar() {
+	public List<Autor> getAutores() {
+		this.autores = autorDAO.obterTodosAutores();
+		return this.autores;
+	}
 
-		EntityManager em = new JpaUtil().getEntityManager();
-		AutorDAO dao = new AutorDAO(em);
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
+	}
+
+	public void gravar() {
+
+		if(this.autor.getId() == null){
+			autorDAO.persist(autor);
+			System.out.println("Gravou o Autor: " + autor.getNome());
+		}else{
+			autorDAO.merge(autor);
+			System.out.println("Alterou o Autor: " + autor.getNome());
+		}
 		
-		dao.persist(autor);
-		
-		System.out.println("Gravou o Autor: " + autor.getNome());
 		clear();
 		
-		return "livro?faces-redirect=true";
+		//return "livro?faces-redirect=true";
+	}
+	
+	public void remover(Autor autor){
+		System.out.println("Removendo o autor: " + autor.getNome());
+		autorDAO.remove(autor);
+		System.out.println("Autor removido com sucesso.");
+		
+	}
+	
+	public void carregar(Autor autor){
+		this.autor = autor;
 	}
 	
 	public void clear(){

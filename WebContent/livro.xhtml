@@ -38,66 +38,100 @@
 							timeZone="America/Sao_Paulo" />
 					</h:inputText>
 				</h:panelGrid>
-				<h:commandButton value="Gravar" action="#{livroBean.gravar}">
-					<f:ajax execute="@form" render="@form :tabelaLivros" />
-				</h:commandButton>
-			</fieldset>
-
-			<fieldset>
-				<legend>Dados do Autor</legend>
-				<h:outputLabel value="Selecione o Autor: " for="autor" />
-				<h:selectOneMenu id="autor" value="#{livroBean.autorId}">
-					<f:selectItems value="#{livroBean.autores}" var="autor"
-						itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
-				</h:selectOneMenu>
-				<h:dataTable id="tabelaAutores" value="#{livroBean.autoresDoLivro}"
-					var="autor">
-					<h:column>
-						<h:outputText value="#{autor.nome}" />
-					</h:column>
-				</h:dataTable>
-				<h:commandButton value="Gravar Autor"
-					action="#{livroBean.gravarAutor}">
-					<f:ajax execute="autor" render="tabelaAutores" />
-				</h:commandButton>
 				<br />
-				<h:commandLink value="Cadastrar" action="#{livroBean.formAutor}"
-					immediate="true" />
+				<fieldset>
+					<legend>Autores do Livro</legend>
+					<h:outputLabel value="Selecione o Autor: " for="autor" />
+					<h:selectOneMenu id="autor" value="#{livroBean.autorId}">
+						<f:selectItems value="#{livroBean.autores}" var="autor"
+							itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+					</h:selectOneMenu>
+					<h:commandButton value="Gravar Autor"
+						action="#{livroBean.gravarAutor}">
+						<f:ajax execute="autor" render="tabelaAutores" />
+					</h:commandButton>
+					<br />
+					<h:commandLink value="Cadastrar Novo Autor"
+						action="#{livroBean.formAutor}" immediate="true" />
+					<br />
+				</fieldset>
+
+				<br />
+
+				<fieldset>
+					<legend>Dados dos Autores</legend>
+					<h:dataTable id="tabelaAutores" value="#{livroBean.autoresDoLivro}"
+						var="autor">
+						<h:column>
+							<h:outputText value="#{autor.nome}" />
+						</h:column>
+						<h:column>
+							<h:commandButton id="removeAutor" value="X"
+								action="#{livroBean.removerAutor(autor)}" />
+						</h:column>
+					</h:dataTable>
+				</fieldset>
+
+				<br />
+
+				<h:commandButton value="Gravar" action="#{livroBean.gravar}">
+					<f:ajax execute="@form"
+						render="@form :formTabelaLivros:tabelaLivros" />
+				</h:commandButton>
 			</fieldset>
+			<br />
 
 		</h:form>
+		<br />
+		<h:form id="formTabelaLivros">
+			<fieldset>
+				<legend>Livros Gravados</legend>
+				<h:dataTable id="tabelaLivros" value="#{livroBean.livros}"
+					var="livro">
+					<h:column>
+						<h:outputLabel value="Titulo: " for="livro_titulo"
+							style="font-weight: bold" />
+						<h:outputText id="livro_titulo" value="#{livro.titulo}" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="Isbn: " for="livro_isbn"
+							style="font-weight: bold" />
+						<h:outputText id="livro_isbn" value="#{livro.isbn}" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="Preco: " for="livro_preco"
+							style="font-weight: bold" />
+						<h:outputText id="livro_preco" value="#{livro.preco}" />
+					</h:column>
+					<h:column>
+						<h:outputLabel value="Data de Lancamento: "
+							for="livro_dataLancamento" style="font-weight: bold" />
+						<h:outputText id="livro_dataLancamento"
+							value="#{livro.dataLancamento}">
+							<f:convertDateTime pattern="dd/MM/yyyy"
+								timeZone="America/Sao_Paulo" />
+						</h:outputText>
+					</h:column>
 
-		<fieldset>
-			<legend>Livros Gravados</legend>
-			<h:dataTable id="tabelaLivros" value="#{livroBean.livros}"
-				var="livro">
-				<h:column>
-					<h:outputLabel value="Titulo: " for="livro_titulo"
-						style="font-weight: bold" />
-					<h:outputText id="livro_titulo" value="#{livro.titulo}" />
-				</h:column>
-				<h:column>
-					<h:outputLabel value="Isbn: " for="livro_isbn"
-						style="font-weight: bold" />
-					<h:outputText id="livro_isbn" value="#{livro.isbn}" />
-				</h:column>
-				<h:column>
-					<h:outputLabel value="Preco: " for="livro_preco"
-						style="font-weight: bold" />
-					<h:outputText id="livro_preco" value="#{livro.preco}" />
-				</h:column>
-				<h:column>
-					<h:outputLabel value="Data de Lancamento: "
-						for="livro_dataLancamento" style="font-weight: bold" />
-					<h:outputText id="livro_dataLancamento"
-						value="#{livro.dataLancamento}">
-						<f:convertDateTime pattern="dd/MM/yyyy"
-							timeZone="America/Sao_Paulo" />
-					</h:outputText>
-				</h:column>
-			</h:dataTable>
-		</fieldset>
-	</ui:define> <!-- FIM CONTEUDO -->
+					<h:column>
+						<h:outputLabel value="Alterar livro: " for="altera"
+							style="font-weight: bold" />
+						<h:commandButton id="altera" value="Alterar"
+							action="#{livroBean.carregar(livro)}"/>
+					</h:column>
+
+					<h:column>
+						<h:outputLabel value="Remover livro: " for="remove"
+							style="font-weight: bold" />
+						<h:commandButton id="remove" value="Remove"
+							action="#{livroBean.remover(livro)}" />
+					</h:column>
+
+				</h:dataTable>
+			</fieldset>
+		</h:form>
+	</ui:define>
+	<!-- FIM CONTEUDO -->
 	<ui:define name="rodape-nome-formulario">
 		Livros
 	</ui:define>
