@@ -11,22 +11,24 @@
 
 	<ui:define name="titulo">Login</ui:define>
 	<ui:define name="conteudo">
-		<h:form>
+		<h:form id="login">
 
-			<h:messages id="messages" />
+			<h:messages id="messages" globalOnly="true" />
 
 			<fieldset>
 				<legend>Dados de Login</legend>
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="3">
 					<h:outputText value="Email" for="email" />
 					<h:inputText id="email" value="#{loginBean.usuario.email}"
 						required="True" requiredMessage="Email é Obrigatório">
 						<f:ajax event="blur" render="messages" />
 					</h:inputText>
+					<h:message for="email" />
 
 					<h:outputText value="Senha" for="senha" />
 					<h:inputSecret id="senha" value="#{loginBean.usuario.senha}"
-						required="true" />
+						required="true" requiredMessage="Senha é Obrigatório" />
+					<h:message for="senha" />
 				</h:panelGrid>
 
 				<h:commandButton value="Entrar" action="#{loginBean.autenticar}" />
