@@ -48,6 +48,7 @@ public class AutorBean {
 			System.out.println("Alterou o Autor: " + autor.getNome());
 		}
 		
+		this.autores = autorDAO.obterTodosAutores();
 		clear();
 		
 		//return "livro?faces-redirect=true";
@@ -62,6 +63,18 @@ public class AutorBean {
 	
 	public void carregar(Autor autor){
 		this.autor = autor;
+	}
+	
+	public void carregarPorId(){
+		
+		Integer id = this.autor.getId();
+		this.autor = autorDAO.obterAutorPorId(id);
+		if (this.autor == null){
+			this.autor = new Autor();
+		}
+		
+		
+		
 	}
 	
 	public void clear(){
