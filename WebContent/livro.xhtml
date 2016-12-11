@@ -132,8 +132,9 @@
 		</h:form>
 	</ui:define>
 	<!-- FIM CONTEUDO -->
-	<ui:define name="rodape-nome-formulario">
-		Livros
+	<ui:define name="usuario-logado">
+		<!-- <h:outputText value="#{emailUsuario}" />  -->
+		<h:outputText value="#{sessionScope['usuarioLogado'].email}" />
 	</ui:define>
 </ui:composition>
 </html>

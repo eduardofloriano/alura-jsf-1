@@ -2,6 +2,7 @@ package br.com.alura.livraria.bean;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 
 import br.com.alura.livraria.dao.UsuarioDAO;
@@ -28,6 +29,10 @@ public class LoginBean {
 		if (usuario == null) {
 			return null;
 		} else {
+			
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.getExternalContext().getSessionMap().put("usuarioLogado", usuario);
+			//context.getExternalContext().getSessionMap().put("emailUsuario", usuario.getEmail());
 			return "livro.xhtml?faces-redirect=true";
 		}
 	}

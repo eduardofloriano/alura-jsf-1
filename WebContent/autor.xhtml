@@ -64,8 +64,9 @@
 		</h:form>
 	</ui:define>
 	<!-- FIM DO CONTEUDO -->
-	<ui:define name="rodape-nome-formulario">
-		Autores
+	<ui:define name="usuario-logado">
+		<!-- <h:outputText value="#{emailUsuario}" />  -->
+		<h:outputText value="#{sessionScope['usuarioLogado'].email}" />
 	</ui:define>
 </ui:composition>
 </html>
